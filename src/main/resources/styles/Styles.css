@@ -1,0 +1,32 @@
+#loginStatus {
+    -fx-font-weight: bold;
+}
+
+.redS{
+    -fx-text-fill: red;
+}
+
+.greenS{
+    -fx-text-fill: green;
+}
+/*
+.text-field.error {
+  -fx-text-box-border: red ;
+  -fx-focus-color: red ;
+  -fx-faint-focus-color: transparent;
+}*/
+
+/*
+
+.progress-indicator .percentage {
+   -fx-fill:null;
+}
+*/
+.text-field:error {
+    -fx-text-box-border: red ;
+    -fx-focus-color: red ;
+    -fx-faint-focus-color: transparent;
+
+}
+
+
