@@ -149,7 +149,7 @@ public class ConnectionOracle extends ConnectionDB {
     }
 
     protected QueryData oracleQBE(String schema, String table, String Query,
-            String[] Columns) {
+            List<String> Columns) {
 
         boolean isAnyColSelected = false;
         if (Columns != null) {
@@ -162,7 +162,7 @@ public class ConnectionOracle extends ConnectionDB {
             if (isAnyColSelected == true) {
                 StringBuilder sb = new StringBuilder();
                 StringBuilder sb1 = new StringBuilder();
-                if (Columns != null && Columns.length > 0) {
+                if (Columns != null && Columns.size() > 0) {
                     for (String s : Columns) {
                         sb.append(s).append(", ");
                         sb1.append(s).append(" LIKE '%").append(Query).append("%' OR ");

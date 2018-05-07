@@ -5,6 +5,7 @@
  */
 package com.spectral369.functionality;
 
+import com.mongodb.MongoClient;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -62,13 +63,15 @@ public class QueryByExampleAPI {
 
             }
 
-        }
-        if (selectedDB.equals(DatabasesAvailable.ORACLE)) {
+        } else if (selectedDB.equals(DatabasesAvailable.ORACLE)) {
             choise.ChoseConn(2);
             queryData = new QueryData();
             choise.oracle.setConnection();
+        } else if (selectedDB.equals(DatabasesAvailable.MONGO)) {
+            choise.ChoseConn(3);
+            queryData = new QueryData();
+            //something's missing
         }
-
     }
 
     // check if info is setted
@@ -164,27 +167,54 @@ public class QueryByExampleAPI {
         choise.setInfo(userName, password, server, port, SID);
     }
 
+    public void setMongoServerInformation(String userName, String password,
+            String server, int port) {
+        choise.setInfo(userName, password, server, port);
+
+    }
+
     // get Connection
     public Connection getConnection() {
         ConnectonCounter++;
-        return choise.getCon();
+        return choise.getConSQLOROracle();
+    }
+
+    public MongoClient getMongoConnection() {
+        ConnectonCounter++;
+        return choise.getMongoConn();
     }
 
     public DatabasesAvailable getDatabaseAvailable() {
         return selectedDB;
     }
 
+    public QueryData mongoQBE(String sqlDatabase, String collection,
+            String QueryString, List<String> collsSelected) {
+        return choise.mongo.mongoQBE(sqlDatabase, collection, QueryString, collsSelected);
+    }
+
     public void changeSQLDatabase(String database) throws SQLException {
         choise.sql.changedb(database);
     }
 
+    public void changeMongoDatabase(String database) {
+        choise.mongo.changeMongoDB(database);
+    }
+
+    public List<String> getAvailableMongoDatabases() {
+        return choise.mongo.getMongoDatabases();
+    }
+
     public ArrayList<Object> getSQLArrayListTables() {
         return choise.sql.getDBTAbles();
-
     }
 
     public List<String> getSQLStringArraytables() {
         return choise.sql.getTables();
+    }
+
+    public List<String> getMongoCollectionList() {
+        return choise.mongo.getMongoCollections();
     }
 
     public String[] getOracleStringArraySchemas() {
@@ -197,6 +227,10 @@ public class QueryByExampleAPI {
 
     public ArrayList<Object> getSQLColumnsFromTable(String table) {
         return choise.sql.getColumns(table);
+    }
+
+    public List<String> getMongoColumnsFromTable(String collection) {
+        return choise.mongo.getMongoColumns(collection);
     }
 
     public QueryData SQLQBE(String sqlDatabase, String Table,
@@ -214,8 +248,8 @@ public class QueryByExampleAPI {
     }
 
     public QueryData OracleQBE(String schema, String table, String Query,
-            String[] columns) {
-        return choise.oracle.oracleQBE(schema, table, Query, columns);
+            List<String> collsSelected) {
+        return choise.oracle.oracleQBE(schema, table, Query, collsSelected);
     }
 
     public QueryData SQLSimpleQuery(String Query) {
@@ -264,6 +298,14 @@ public class QueryByExampleAPI {
 
     public boolean checkSQLConnection() {
         return choise.sql.checkConnection();
+    }
+
+    public boolean checkMongoServerConnection() {
+        return choise.mongo.checkMongoServerConnection();
+    }
+
+    public boolean checkMongoIsLogin() {
+        return choise.mongo.checkMongoIsLogin();
     }
 
     public boolean checkOracleConnection() {

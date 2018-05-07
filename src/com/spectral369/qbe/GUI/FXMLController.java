@@ -175,57 +175,151 @@ public class FXMLController implements Initializable {
 
         exportPDF.disableProperty().bind(Bindings.isEmpty(queryTable.getColumns()));
         exportXML.disableProperty().bind(Bindings.isEmpty(queryTable.getColumns()));
-        
+
     }
 
     @FXML
     public void handleLogin() {
-        loading(true);
+        if (databaseSelect.getSelectionModel().getSelectedItem().equals(DatabasesAvailable.ORACLE.toString())) {
+            if (oracleSID.getText().isEmpty() || oracleSID.getText().length() < 2) {
 
-        if (databaseSelect.getSelectionModel().getSelectedItem().equals("MYSQL")) {
-
-            api.setMYSQLServerInformation(usernameForm.getText(),
-                    String.copyValueOf(passwordForm.getText().toCharArray()),
-                    serverField.getText(), Integer.parseInt(portForm.getText()));
-
-            api.beginSession();
-            if (api.getConnection() == null) {
-                loginStatus.getStyleClass().clear();
-                loginStatus.getStyleClass().add("redS");
-                loginStatus.setText("Connection Failed");
-                loginStatus.setTooltip(new Tooltip("Server could not be reached !"));
-
-            } else if (!api.checkSQLConnection()) {
-                loginStatus.getStyleClass().clear();
-                loginStatus.getStyleClass().add("redS");
-                loginStatus.setText("Connection Failed");
-                loginStatus.setTooltip(new Tooltip("Login info invalid !"));
-
+                oracleSID.pseudoClassStateChanged(errorClass, true);
+                oracleSID.requestFocus();
+                return;
             } else {
-
-                try {
-                    loginStatus.getStyleClass().clear();
-                    loginStatus.getStyleClass().add("greenS");
-                    loginStatus.setText("Connection Success");
-
-                    databaseCombo.getItems().addAll(api.showSQLAvailableSchemas());
-                    databaseCombo.getSelectionModel().selectFirst();
-                } catch (Exception e) {
-
-                    loading(false);
-                    e.getMessage();
-                    Popup popup = new Popup();
-                    popup.getContent().add(new Label("NO databases available \n for current user"));
-
-                }
-
-                tabPane.getTabs().remove(0);
-                tabPane.getTabs().get(tabPane.getTabs().size() - 1).setDisable(false);
-                tabPane.getSelectionModel().select(tabPane.getTabs().size() - 1);
+                oracleSID.pseudoClassStateChanged(errorClass, false);
 
             }
         }
+        loading(true);
+
+        switch (databaseSelect.getSelectionModel().getSelectedItem()) {
         //other dbs
+            case "MYSQL":
+                api.setMYSQLServerInformation(usernameForm.getText(),
+                        String.copyValueOf(passwordForm.getText().toCharArray()),
+                        serverField.getText(), Integer.parseInt(portForm.getText()));
+                api.beginSession();
+                if (api.getConnection() == null) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed");
+                    loginStatus.setTooltip(new Tooltip("Server could not be reached !"));
+                    
+                } else if (!api.checkSQLConnection()) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed");
+                    loginStatus.setTooltip(new Tooltip("Login info invalid !"));
+                    
+                } else {
+                    
+                    try {
+                        loginStatus.getStyleClass().clear();
+                        loginStatus.getStyleClass().add("greenS");
+                        loginStatus.setText("Connection Success");
+                        
+                        databaseCombo.getItems().addAll(api.showSQLAvailableSchemas());
+                        databaseCombo.getSelectionModel().selectFirst();
+                    } catch (Exception e) {
+                        
+                        loading(false);
+                        e.getMessage();
+                        Popup popup = new Popup();
+                        popup.getContent().add(new Label("NO databases available \n for current user"));
+                        
+                    }
+                    
+                    tabPane.getTabs().remove(0);
+                    tabPane.getTabs().get(tabPane.getTabs().size() - 1).setDisable(false);
+                    tabPane.getSelectionModel().select(tabPane.getTabs().size() - 1);
+                    
+                }   break;
+            case "ORACLE":
+                api.setOracleServerInformation(usernameForm.getText(),
+                        String.copyValueOf(passwordForm.getText().toCharArray()),
+                        serverField.getText(), Integer.parseInt(portForm.getText()), oracleSID.getText());
+                api.beginSession();
+                if (api.getConnection() == null) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed");
+                    loginStatus.setTooltip(new Tooltip("Server could not be reached !"));
+                    
+                } else if (!api.checkOracleConnection()) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed");
+                    loginStatus.setTooltip(new Tooltip("Login info invalid !"));
+                    
+                } else {
+                    
+                    try {
+                        loginStatus.getStyleClass().clear();
+                        loginStatus.getStyleClass().add("greenS");
+                        loginStatus.setText("Connection Success");
+                        
+                        databaseCombo.getItems().addAll(api.getOracleStringArraySchemas());
+                        databaseCombo.getSelectionModel().selectFirst();
+                    } catch (Exception e) {
+                        
+                        loading(false);
+                        e.getMessage();
+                        Popup popup = new Popup();
+                        popup.getContent().add(new Label("NO databases available \n for current user"));
+                        
+                    }
+                    
+                    tabPane.getTabs().remove(0);
+                    tabPane.getTabs().get(tabPane.getTabs().size() - 1).setDisable(false);
+                    tabPane.getSelectionModel().select(tabPane.getTabs().size() - 1);
+                    
+                }   break;
+            case "MONGO":
+                api.setMongoServerInformation(usernameForm.getText(),
+                        String.copyValueOf(passwordForm.getText().toCharArray()),
+                        serverField.getText(), Integer.parseInt(portForm.getText()));
+                api.beginSession();
+                if (!api.checkMongoServerConnection()) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed(Server)");
+                    loginStatus.setTooltip(new Tooltip("Server could not be reached !"));
+                    loading(false);
+                    return;
+                    
+                } else if (!api.checkMongoIsLogin()) {
+                    loginStatus.getStyleClass().clear();
+                    loginStatus.getStyleClass().add("redS");
+                    loginStatus.setText("Connection Failed(Login)");
+                    loginStatus.setTooltip(new Tooltip("Login info invalid !"));
+                    loading(false);
+                    return;
+                } else {
+                    try {
+                        loginStatus.getStyleClass().clear();
+                        loginStatus.getStyleClass().add("greenS");
+                        loginStatus.setText("Connection Success");
+                        
+                        databaseCombo.getItems().addAll(api.getAvailableMongoDatabases());
+                        databaseCombo.getSelectionModel().selectFirst();
+                    } catch (Exception e) {
+                        
+                        loading(false);
+                        e.getMessage();
+                        Popup popup = new Popup();
+                        popup.getContent().add(new Label("NO databases available \n for current user"));
+                        
+                    }
+                    
+                    tabPane.getTabs().remove(0);
+                    tabPane.getTabs().get(tabPane.getTabs().size() - 1).setDisable(false);
+                    tabPane.getSelectionModel().select(tabPane.getTabs().size() - 1);
+                    
+                }   break;
+            default:
+                break;
+        }
 
         //other dbs
         //extra init
@@ -241,6 +335,7 @@ public class FXMLController implements Initializable {
             oracleSID.setVisible(true);
             sidLabel.setVisible(true);
             api.setDatabase(DatabasesAvailable.ORACLE);
+
         } else if (databaseSelect.getSelectionModel().getSelectedItem().equals(DatabasesAvailable.MYSQL.toString())) {
             oracleSID.setVisible(false);
             sidLabel.setVisible(false);
@@ -265,24 +360,56 @@ public class FXMLController implements Initializable {
         queryTable.getItems().clear();
         queryTable.getColumns().clear();
 
-        if (api.getDatabaseAvailable().toString().equals("MYSQL")) {
-
-            if (tableList.getSelectionModel().getSelectedItem() != null) {
-                observableColumnList.clear();
-                columnList.getItems().clear();
-                observableColumnList.addAll(api.getSQLColumnsFromTable(tableList.getSelectionModel().getSelectedItem()));
-                columnList.setItems(observableColumnList);
-                if (columnList.getItems().size() > 0) {
-                    columnList.getSelectionModel().selectFirst();
-                } else {
-
-                    queryBtn.disableProperty().setValue(Boolean.TRUE);//testing
-                    queryForm.disableProperty().setValue(Boolean.TRUE);
-                }
-
-            }
-        }
+        switch (api.getDatabaseAvailable().toString()) {
+            case "MYSQL":
+                if (tableList.getSelectionModel().getSelectedItem() != null) {
+                    observableColumnList.clear();
+                    columnList.getItems().clear();
+                    observableColumnList.addAll(api.getSQLColumnsFromTable(tableList.getSelectionModel().getSelectedItem()));
+                    columnList.setItems(observableColumnList);
+                    if (columnList.getItems().size() > 0) {
+                        columnList.getSelectionModel().selectFirst();
+                    } else {
+                        
+                        queryBtn.disableProperty().setValue(Boolean.TRUE);//testing
+                        queryForm.disableProperty().setValue(Boolean.TRUE);
+                    }
+                    
+                }   break;
         //other dbs
+            case "ORACLE":
+                if (tableList.getSelectionModel().getSelectedItem() != null) {
+                    observableColumnList.clear();
+                    columnList.getItems().clear();
+                    observableColumnList.addAll(api.getOracleColumns(tableList.getSelectionModel().getSelectedItem()));
+                    columnList.setItems(observableColumnList);
+                    if (columnList.getItems().size() > 0) {
+                        columnList.getSelectionModel().selectFirst();
+                    } else {
+                        
+                        queryBtn.disableProperty().setValue(Boolean.TRUE);//testing
+                        queryForm.disableProperty().setValue(Boolean.TRUE);
+                    }
+                    
+                }   break;
+            case "MONGO":
+                if (tableList.getSelectionModel().getSelectedItem() != null) {
+                    observableColumnList.clear();
+                    columnList.getItems().clear();
+                    observableColumnList.addAll(api.getMongoColumnsFromTable(tableList.getSelectionModel().getSelectedItem()));
+                    columnList.setItems(observableColumnList);
+                    if (columnList.getItems().size() > 0) {
+                        columnList.getSelectionModel().selectFirst();
+                    } else {
+                        
+                        queryBtn.disableProperty().setValue(Boolean.TRUE);//testing
+                        queryForm.disableProperty().setValue(Boolean.TRUE);
+                    }
+                    
+                }   break;
+            default:
+                break;
+        }
     }
 
     public void handleDatabaseChange() {
@@ -302,6 +429,37 @@ public class FXMLController implements Initializable {
                 e.getMessage();
             }
 
+        } else if (api.getDatabaseAvailable().toString().equals("ORACLE")) {
+            try {
+
+                api.getOracleTables(databaseCombo.getSelectionModel().getSelectedItem());
+                observableTableList.clear();
+                tableList.getItems().clear();
+                observableTableList.addAll(api.getSQLArrayListTables());
+                tableList.setItems(observableTableList);
+                if (tableList.getItems().size() > 0) {
+                    tableList.getSelectionModel().selectFirst();
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
+        }
+        if (api.getDatabaseAvailable().toString().equals("MONGO")) {
+            try {
+
+                api.changeMongoDatabase(databaseCombo.getSelectionModel().getSelectedItem());
+                observableTableList.clear();
+                tableList.getItems().clear();
+                observableTableList.addAll(api.getMongoCollectionList());
+                tableList.setItems(observableTableList);
+                if (tableList.getItems().size() > 0) {
+                    tableList.getSelectionModel().selectFirst();
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
         }
     }
 
@@ -310,7 +468,9 @@ public class FXMLController implements Initializable {
         loading(true);
 
         try {
-            if (!api.getConnection().isValid(2000)) {
+            if (api.getDatabaseAvailable().equals(DatabasesAvailable.MONGO)) {
+               
+            } else if (!api.getConnection().isValid(2000)) {
                 circleStatus.setFill(Color.RED);
             } else {
                 circleStatus.setFill(Color.GREEN);
@@ -320,68 +480,180 @@ public class FXMLController implements Initializable {
             circleStatus.setFill(Color.RED);
             e1.getMessage();
         }
-        if (api.getDatabaseAvailable().toString().equals("MYSQL")) {
-            queryTable.getItems().clear();
-            queryTable.getColumns().clear();
-            queryTable.getSortOrder().clear();
-            if (columnList.getItems().size() < 1) {
-                queryForm.setText("table contains no columns");
-                queryForm.disableProperty().setValue(Boolean.TRUE);
-                queryBtn.disableProperty().setValue(Boolean.TRUE);
-            }
-            queryData = new QueryData();
-
-            if (columnList.getSelectionModel().getSelectedItems().size() > 0) {
-                queryData = api.SQLQBE(databaseCombo.getSelectionModel().getSelectedItem(),
-                        tableList.getSelectionModel().getSelectedItem(),
-                        queryForm.getText().trim(),
-                        columnList.getSelectionModel().getSelectedItems());
-            } else {
-                queryData = api.SQLQBE(databaseCombo.getSelectionModel().getSelectedItem(),
-                        tableList.getSelectionModel().getSelectedItem(),
-                        queryForm.getText().trim(),
-                        columnList.getItems());
-            }
-
-            data = FXCollections.observableArrayList();
-
-            for (List<String> z : queryData.getData()) {
-                List<String> a1 = new ArrayList<>();
-                for (String x : z) {
-
-                    a1.add(x);
-                }
-                data.add(a1);
-            }
-
-            for (int i = 0; i < queryData.getQBECols().size(); i++) {
-                final int finalIdx = i;
-                tc = new TableColumn<>(queryData.getQBECols().get(i));
-                //  tc.setSortable(false);
-
-                tc.setCellValueFactory((TableColumn.CellDataFeatures<List<String>, String> param) -> {
-                    if (in.get() >= queryData.getQBECols().size()) {
-                        in.set(0);
+        switch (api.getDatabaseAvailable().toString()) {
+            case "MYSQL":
+                queryTable.getItems().clear();
+                queryTable.getColumns().clear();
+                queryTable.getSortOrder().clear();
+                if (columnList.getItems().size() < 1) {
+                    queryForm.setText("table contains no columns");
+                    queryForm.disableProperty().setValue(Boolean.TRUE);
+                    queryBtn.disableProperty().setValue(Boolean.TRUE);
+                }   queryData = new QueryData();
+                if (columnList.getSelectionModel().getSelectedItems().size() > 0) {
+                    queryData = api.SQLQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                            tableList.getSelectionModel().getSelectedItem(),
+                            queryForm.getText().trim(),
+                            columnList.getSelectionModel().getSelectedItems());
+                } else {
+                    queryData = api.SQLQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                            tableList.getSelectionModel().getSelectedItem(),
+                            queryForm.getText().trim(),
+                            columnList.getItems());
+                }   data = FXCollections.observableArrayList();
+                for (List<String> z : queryData.getData()) {
+                    List<String> a1 = new ArrayList<>();
+                    for (String x : z) {
+                        
+                        a1.add(x);
                     }
+                    data.add(a1);
+                }   for (int i = 0; i < queryData.getQBECols().size(); i++) {
+                    final int finalIdx = i;
+                    tc = new TableColumn<>(queryData.getQBECols().get(i));
+                    //  tc.setSortable(false);
+                    
+                    tc.setCellValueFactory((TableColumn.CellDataFeatures<List<String>, String> param) -> {
+                        if (in.get() >= queryData.getQBECols().size()) {
+                            in.set(0);
+                        }
+                        
+                        return new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx));
+                    });
+                    
+                    queryTable.getColumns().add(tc);
+                    
+                }   for (int i = 0; i < data.size(); i++) {
+                    queryTable.getItems().add(
+                            FXCollections.observableArrayList(
+                                    data.get(i)
+                            )
+                    );
+                }
+                
+                //   queryTable.getSortOrder().add(queryTable.getColumns().get(0));
+                break;
+            case "ORACLE":
+                queryTable.getItems().clear();
+                queryTable.getColumns().clear();
+                queryTable.getSortOrder().clear();
+                if (columnList.getItems().size() < 1) {
+                    queryForm.setText("table contains no columns");
+                    queryForm.disableProperty().setValue(Boolean.TRUE);
+                    queryBtn.disableProperty().setValue(Boolean.TRUE);
+                }   queryData = new QueryData();
+                if (columnList.getSelectionModel().getSelectedItems().size() > 0) {
+                    queryData = api.OracleQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                            tableList.getSelectionModel().getSelectedItem(),
+                            queryForm.getText().trim(),
+                            columnList.getSelectionModel().getSelectedItems());
+                } else {
+                    queryData = api.OracleQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                            tableList.getSelectionModel().getSelectedItem(),
+                            queryForm.getText().trim(),
+                            columnList.getItems());
+                }   data = FXCollections.observableArrayList();
+                for (List<String> z : queryData.getData()) {
+                    List<String> a1 = new ArrayList<>();
+                    for (String x : z) {
 
-                    return new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx));
-                });
+                        a1.add(x);
+                    }
+                    data.add(a1);
+                }   for (int i = 0; i < queryData.getQBECols().size(); i++) {
+                    final int finalIdx = i;
+                    tc = new TableColumn<>(queryData.getQBECols().get(i));
+                    //  tc.setSortable(false);
 
-                queryTable.getColumns().add(tc);
+                    tc.setCellValueFactory((TableColumn.CellDataFeatures<List<String>, String> param) -> {
+                        if (in.get() >= queryData.getQBECols().size()) {
+                            in.set(0);
+                        }
 
-            }
+                        return new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx));
+                    });
 
-  
-            for (int i = 0; i < data.size(); i++) {
-                queryTable.getItems().add(
-                        FXCollections.observableArrayList(
-                                data.get(i)
-                        )
-                );
-            }
-
-            //   queryTable.getSortOrder().add(queryTable.getColumns().get(0));
+                    queryTable.getColumns().add(tc);
+                    
+                }   for (int i = 0; i < data.size(); i++) {
+                    queryTable.getItems().add(
+                            FXCollections.observableArrayList(
+                                    data.get(i)
+                            )
+                    );
+                }
+                
+                //   queryTable.getSortOrder().add(queryTable.getColumns().get(0));
+                break;
+            case "MONGO":
+                try {
+                    queryTable.getItems().clear();
+                    queryTable.getColumns().clear();
+                    queryTable.getSortOrder().clear();
+                    if (columnList.getItems().size() < 1) {
+                        queryForm.setText("table contains no columns");
+                        queryForm.disableProperty().setValue(Boolean.TRUE);
+                        queryBtn.disableProperty().setValue(Boolean.TRUE);
+                    }
+                    queryData = new QueryData();
+                    
+                    if (columnList.getSelectionModel().getSelectedItems().size() > 0) {
+                        queryData = api.mongoQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                                tableList.getSelectionModel().getSelectedItem(),
+                                queryForm.getText().trim(),
+                                columnList.getSelectionModel().getSelectedItems());
+                    } else {
+                        queryData = api.mongoQBE(databaseCombo.getSelectionModel().getSelectedItem(),
+                                tableList.getSelectionModel().getSelectedItem(),
+                                queryForm.getText().trim(),
+                                columnList.getItems());
+                    }
+                    
+                    data = FXCollections.observableArrayList();
+                    
+                    for (List<String> z : queryData.getData()) {
+                        List<String> a1 = new ArrayList<>();
+                        for (String x : z) {
+                            
+                            a1.add(x);
+                        }
+                        data.add(a1);
+                    }
+                    
+                    for (int i = 0; i < queryData.getQBECols().size(); i++) {
+                        final int finalIdx = i;
+                        tc = new TableColumn<>(queryData.getQBECols().get(i));
+                        //  tc.setSortable(false);
+                        
+                        tc.setCellValueFactory((TableColumn.CellDataFeatures<List<String>, String> param) -> {
+                            if (in.get() >= queryData.getQBECols().size()) {
+                                in.set(0);
+                            }
+                            
+                            return new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx));
+                        });
+                        
+                        queryTable.getColumns().add(tc);
+                        
+                    }
+                    
+                    for (int i = 0; i < data.size(); i++) {
+                        queryTable.getItems().add(
+                                FXCollections.observableArrayList(
+                                        data.get(i)
+                                )
+                        );
+                    }
+                } catch (Exception e) {
+                    loading(false);
+                }
+                
+                //   queryTable.getSortOrder().add(queryTable.getColumns().get(0));
+                break;
+            default:
+                break;
         }
+
         loading(false);
     }
 
@@ -503,11 +775,12 @@ public class FXMLController implements Initializable {
                     return null;
                 }
             });
+            loadingThread.setPriority(Thread.MAX_PRIORITY);//testing...
             loadingThread.start();
 
         } else {
             Platform.runLater(() -> {
-                System.out.println("closed");
+              
                 if (loadingDialog != null) {
                     loadingDialog.close();
 

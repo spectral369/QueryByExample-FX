@@ -5,7 +5,7 @@
  */
 package com.spectral369.functionality;
 
-import com.spectral369.functionality.UtilitiesQBE;
+import com.mongodb.MongoClient;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,6 +35,7 @@ public abstract class ConnectionDB {
     ResultSet resultSet = null;
     protected List<String> QBECols;
     protected List<List<String>> data;
+    protected MongoClient mc = null;
 
     // sql constructor
     public ConnectionDB(String userName, char[] password, String server,

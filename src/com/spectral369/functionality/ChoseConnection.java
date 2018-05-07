@@ -5,6 +5,7 @@
  */
 package com.spectral369.functionality;
 
+import com.mongodb.MongoClient;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ public class ChoseConnection {
     private Logger logChose;
     protected ConnectionMysql sql = null;
     protected ConnectionOracle oracle = null;
+    protected ConnectionMongo mongo = null;
     protected ConnectionDB connDB = null;
     protected Object ins = null;
 
@@ -64,17 +66,20 @@ public class ChoseConnection {
 
     }
 
-    public Connection getCon() {
+    public Connection getConSQLOROracle() {
         // return connDB.connection;
         if (sql != null) {
             return sql.connection;
-        }
-        if (oracle != null) {
+        } else if (oracle != null) {
             return oracle.connection;
         } else {
             return null;
         }
 
+    }
+
+    public MongoClient getMongoConn() {
+        return mongo.mc;
     }
 
     public void ChoseConn(int i) {
@@ -87,21 +92,27 @@ public class ChoseConnection {
                 break;
             case 2:
                 if (UtilitiesQBE.isLogAcctive) {
-                    logChose.log(Level.INFO, "Oracle Server Chosens");
+                    logChose.log(Level.INFO, "Oracle Server Chosen");
                 }
                 oracle = new ConnectionOracle(userName, password, server, port, SID);
+                break;
+            case 3:
+                if (UtilitiesQBE.isLogAcctive) {
+                    logChose.log(Level.INFO, "Mongo Server Chosen");
+                }
+                mongo = null;
+                mongo = new ConnectionMongo(userName, password, server, port);
                 break;
 
             default:
                 if (UtilitiesQBE.isLogAcctive) {
-                    logChose.log(Level.WARNING, "bad Choise");
+                    logChose.log(Level.WARNING, "Bad Choise");
                 }
                 break;
         }
     }
 
-    public void changeDatabase(String database) throws SQLException {
+    /* public void changeDatabase(String database) throws SQLException {
         sql.changedb(database);
-    }
-
+    }*/
 }

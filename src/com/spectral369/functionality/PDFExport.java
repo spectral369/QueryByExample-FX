@@ -32,7 +32,6 @@ public class PDFExport {
 		// TODO Auto-generated constructor stub
 		Logger log =  UtilitiesQBE.getLogger(PDFExport.class);
 	}*/
-
     protected void defaultExportToPDF(QueryData queryData) {
         if (queryData.data == null || queryData.QBECols == null) {
             throw new NullPointerException("Nothing to export");

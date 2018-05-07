@@ -11,12 +11,12 @@
     <description>Query By Example FXML Version </description>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>com.spectral369.qbe.GUI.MainApp</mainClass>
     </properties>
 
- <!--  <organization>
+    <!--  <organization>
          Used as the 'Vendor' for JNLP generation
         <name>Your Organisation</name>
     </organization> -->
@@ -106,44 +106,47 @@
                     </additionalClasspathElements>
                 </configuration>
             </plugin>
-        <plugin>
-  <artifactId>maven-assembly-plugin</artifactId>
-  <configuration>
-   <encoding>UTF-8</encoding>
-    <archive>
-      <manifest>
-        <addClasspath>true</addClasspath>
-              <mainClass>com.spectral369.qbe.GUI</mainClass>
-      </manifest>
+            <plugin>
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.spectral369.qbe.GUI</mainClass>
+                        </manifest>
 
-    </archive>
-      <source>1.8</source>
-      <target>1.8</target>
-    <descriptorRefs>
-      <descriptorRef>jar-with-dependencies</descriptorRef>
-    </descriptorRefs>
-  </configuration>
-  <executions>
-    <execution>
-      <id>make-assembly</id> <!-- this is used for inheritance merges -->
-      <phase>package</phase> <!-- bind to the packaging phase -->
-      <goals>
-        <goal>single</goal>
-      </goals>
-    </execution>
-  </executions>
-</plugin>
+                    </archive>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         
         
         </plugins>  
     </build>
- <dependencies>
-      <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
-<dependency>
-    <groupId>com.jfoenix</groupId>
-    <artifactId>jfoenix</artifactId>
-    <version>8.0.3</version>
-</dependency>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>8.0.3</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
@@ -158,32 +161,39 @@
             <version>1.7.25</version>
             <scope>test</scope>
         </dependency>
-       <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>6.0.6</version>
-</dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.6</version>
+        </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
-<dependency>
-    <groupId>com.itextpdf</groupId>
-    <artifactId>itextpdf</artifactId>
-    <version>5.5.13</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
-<dependency>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <version>3.1.0</version>
-</dependency>
-<!--
-<dependency>
-   <groupId>com.oracle.jdbc</groupId> 
-<artifactId>ojdbc8</artifactId> 
-<version>12.2.0.1</version>
-</dependency>
--->
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- manual depependency install.... needs checking....-->
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>7</version>
+        </dependency>
 
- </dependencies>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+
+
+    </dependencies>
 </project>

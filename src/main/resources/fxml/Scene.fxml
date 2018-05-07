@@ -8,82 +8,82 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="479.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spectral369.qbe.GUI.FXMLController">
-   <children>
-      <MenuBar prefHeight="29.0" prefWidth="842.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem id="restart" fx:id="restart" onAction="#handleRestart" mnemonicParsing="false" text="Restart" />
-              <MenuItem mnemonicParsing="false" id="exit" fx:id="exit" onAction="#handleExit" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Export">
-            <items>
-              <MenuItem id="exportPDF" fx:id="exportPDF" onAction="#handlePDF" mnemonicParsing="false" text="Export PDF" />
-              <MenuItem mnemonicParsing="false" id="exportXML" fx:id="exportXML" onAction="#handleXML" text="Export XML" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" id="about" fx:id="about" onAction="#handleAbout" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <TabPane id="tabPane" fx:id="tabPane" layoutY="33.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <tabs>
-            <Tab text="Login">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="781.0" styleClass="login">
-                     <children>
-                        <Label contentDisplay="CENTER" layoutX="397.0" layoutY="7.0" prefHeight="18.0" prefWidth="193.0" text="Query By Example" AnchorPane.bottomAnchor="388.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="8.0" />
-                        <Label id="loginStatus" fx:id="loginStatus" layoutX="366.0" layoutY="29.0" prefHeight="22.0" prefWidth="184.0" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <Label layoutX="398.0" layoutY="57.0" text="Select a Database" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <ComboBox id="databaseSelect" fx:id="databaseSelect" layoutX="373.0" layoutY="72.0" onAction="#handleChangeDB" prefHeight="25.0" prefWidth="169.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <Label id="usernameLabel" layoutX="423.0" layoutY="97.0" prefHeight="15.0" prefWidth="192.0" text="Username:" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
-                        <TextField id="usernameField" fx:id="usernameForm" layoutX="372.0" layoutY="112.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <Label id="passwordLabel" layoutX="426.0" layoutY="137.0" prefHeight="15.0" prefWidth="193.0" text="Password:" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
-                        <PasswordField id="passwordForm" fx:id="passwordForm" layoutX="300.0" layoutY="152.0" prefHeight="25.0" prefWidth="191.0" AnchorPane.bottomAnchor="241.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="152.0" />
-                        <Label layoutX="302.0" layoutY="179.0" prefHeight="15.0" prefWidth="194.0" text="Server Address" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
-                        <TextField id="serverField" fx:id="serverField" layoutX="300.0" layoutY="197.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="197.0" />
-                        <Label id="portLabel" layoutX="302.0" layoutY="222.0" prefHeight="17.0" prefWidth="187.0" text="Port" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
-                        <TextField id="portField" fx:id="portForm" layoutX="300.0" layoutY="239.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <Label id="sidLabel" fx:id="sidLabel" layoutX="303.0" layoutY="264.0" prefHeight="15.0" prefWidth="189.0" text="SID" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
-                        <TextField id="sidField" fx:id="oracleSID" layoutX="302.0" layoutY="283.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
-                        <Button id="loginBtn" fx:id="loginBtn" layoutX="344.0" layoutY="314.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" prefHeight="25.0" prefWidth="85.0" text="Login" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="314.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="QueryByExample">
-               <content>
-                  <AnchorPane>
-                     <children>
-                        <Label id="databaseLabel" layoutX="20.0" layoutY="7.0" text="Database" />
-                        <ComboBox id="databaseCombo" fx:id="databaseCombo" layoutX="3.0" layoutY="22.0" prefHeight="25.0" prefWidth="165.0" />
-                        <Label id="qbeLabel" layoutX="300.0" layoutY="6.0" text="Query by Example" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="330.0" />
-                        <Circle id="circleStatus" fx:id="circleStatus" fill="DODGERBLUE" layoutX="779.0" layoutY="13.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
-                        <ListView id="tableList" fx:id="tableList" layoutX="2.0" layoutY="67.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="306.0" prefWidth="127.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="67.0" />
-                        <Label id="tablesLabel" layoutX="30.0" layoutY="52.0" text="Tables" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="52.0" />
-                        <ListView id="columnsList" fx:id="columnList" layoutX="662.0" layoutY="65.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="306.0" prefWidth="127.0" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="67.0" />
-                        <Label id="columnsLabel" layoutX="699.0" layoutY="52.0" text="Columns" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="52.0" />
-                        <ScrollPane id="tablePane" fitToHeight="true" fitToWidth="true" layoutX="135.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="522.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="67.0">
-                           <content>
-                              <TableView id="table" fx:id="queryTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="511.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                               <!-- <columns>
-                                  <TableColumn prefWidth="75.0" text="C1" />
-                                  <TableColumn prefWidth="75.0" text="C2" />
-                                </columns>-->
-                              </TableView>
-                           </content>
-                        </ScrollPane>
-                        <TextField id="queryField" fx:id="queryForm" alignment="CENTER" layoutX="202.0" layoutY="22.0" prefHeight="25.0" prefWidth="281.0" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="310.0" />
-                        <Button id="queryBtn" fx:id="queryBtn" layoutX="499.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Query" AnchorPane.rightAnchor="170.0" onAction="#handleQBE" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-   </children>
+    <children>
+        <MenuBar prefHeight="29.0" prefWidth="842.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem id="restart" fx:id="restart" onAction="#handleRestart" mnemonicParsing="false" text="Restart" />
+                        <MenuItem mnemonicParsing="false" id="exit" fx:id="exit" onAction="#handleExit" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Export">
+                    <items>
+                        <MenuItem id="exportPDF" fx:id="exportPDF" onAction="#handlePDF" mnemonicParsing="false" text="Export PDF" />
+                        <MenuItem mnemonicParsing="false" id="exportXML" fx:id="exportXML" onAction="#handleXML" text="Export XML" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" id="about" fx:id="about" onAction="#handleAbout" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <TabPane id="tabPane" fx:id="tabPane" layoutY="33.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <tabs>
+                <Tab text="Login">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="781.0" styleClass="login">
+                            <children>
+                                <Label contentDisplay="CENTER" layoutX="397.0" layoutY="7.0" prefHeight="18.0" prefWidth="193.0" text="Query By Example" AnchorPane.bottomAnchor="388.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="8.0" />
+                                <Label id="loginStatus" fx:id="loginStatus" layoutX="366.0" layoutY="29.0" prefHeight="22.0" prefWidth="184.0" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <Label layoutX="398.0" layoutY="57.0" text="Select a Database" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <ComboBox id="databaseSelect" fx:id="databaseSelect" layoutX="373.0" layoutY="72.0" onAction="#handleChangeDB" prefHeight="25.0" prefWidth="169.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <Label id="usernameLabel" layoutX="423.0" layoutY="97.0" prefHeight="15.0" prefWidth="192.0" text="Username:" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
+                                <TextField id="usernameField" fx:id="usernameForm" layoutX="372.0" layoutY="112.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <Label id="passwordLabel" layoutX="426.0" layoutY="137.0" prefHeight="15.0" prefWidth="193.0" text="Password:" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
+                                <PasswordField id="passwordForm" fx:id="passwordForm" layoutX="300.0" layoutY="152.0" prefHeight="25.0" prefWidth="191.0" AnchorPane.bottomAnchor="241.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="152.0" />
+                                <Label layoutX="302.0" layoutY="179.0" prefHeight="15.0" prefWidth="194.0" text="Server Address" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
+                                <TextField id="serverField" fx:id="serverField" layoutX="300.0" layoutY="197.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="197.0" />
+                                <Label id="portLabel" layoutX="302.0" layoutY="222.0" prefHeight="17.0" prefWidth="187.0" text="Port" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
+                                <TextField id="portField" fx:id="portForm" layoutX="300.0" layoutY="239.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <Label id="sidLabel" fx:id="sidLabel" layoutX="303.0" layoutY="264.0" prefHeight="15.0" prefWidth="189.0" text="SID" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="300.0" />
+                                <TextField id="sidField" fx:id="oracleSID" layoutX="302.0" layoutY="283.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" />
+                                <Button id="loginBtn" fx:id="loginBtn" layoutX="344.0" layoutY="314.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" prefHeight="25.0" prefWidth="85.0" text="Login" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="345.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="314.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="QueryByExample">
+                    <content>
+                        <AnchorPane>
+                            <children>
+                                <Label id="databaseLabel" layoutX="20.0" layoutY="7.0" text="Database" />
+                                <ComboBox id="databaseCombo" fx:id="databaseCombo" layoutX="3.0" layoutY="22.0" prefHeight="25.0" prefWidth="165.0" />
+                                <Label id="qbeLabel" layoutX="300.0" layoutY="6.0" text="Query by Example" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="330.0" />
+                                <Circle id="circleStatus" fx:id="circleStatus" fill="DODGERBLUE" layoutX="779.0" layoutY="13.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                                <ListView id="tableList" fx:id="tableList" layoutX="2.0" layoutY="67.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="306.0" prefWidth="127.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="67.0" />
+                                <Label id="tablesLabel" layoutX="30.0" layoutY="52.0" text="Tables" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="52.0" />
+                                <ListView id="columnsList" fx:id="columnList" layoutX="662.0" layoutY="65.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="306.0" prefWidth="127.0" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="67.0" />
+                                <Label id="columnsLabel" layoutX="699.0" layoutY="52.0" text="Columns" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="52.0" />
+                                <ScrollPane id="tablePane" fitToHeight="true" fitToWidth="true" layoutX="135.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="522.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="67.0">
+                                    <content>
+                                        <TableView id="table" fx:id="queryTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="511.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <!-- <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                            </columns>-->
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
+                                <TextField id="queryField" fx:id="queryForm" alignment="CENTER" layoutX="202.0" layoutY="22.0" prefHeight="25.0" prefWidth="281.0" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="310.0" />
+                                <Button id="queryBtn" fx:id="queryBtn" layoutX="499.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Query" AnchorPane.rightAnchor="170.0" onAction="#handleQBE" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>
