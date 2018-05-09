@@ -116,7 +116,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.spectral369.qbe.GUI</mainClass>
+                            <mainClass>com.spectral369.qbe.GUI.MainApp</mainClass>
                         </manifest>
 
                     </archive>
